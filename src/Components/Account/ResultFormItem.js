@@ -3,6 +3,9 @@ import { Button } from "reactstrap";
 
 
 function ResultFormItem(props) {
+    const handleEdit = () => {
+        console.log(props.id);
+    };
     return (
         <tr>
             <td>{props.id}</td>
@@ -13,7 +16,7 @@ function ResultFormItem(props) {
             <td>{props.position}</td>
             <td>{props.createDate}</td>
             <td>
-                <Button color="warning">Edit</Button>
+                <Button color="warning" onClick={handleEdit}>Edit</Button>
             </td>
             <td>
                 <Button color="warning">Delete</Button>
