@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import { AccountContext } from "../../../Container/AccountContainer";
 
 function InputForm(props) {
-    const { onHandleCreateNewAccount } = useContext(AccountContext);
+    const { onHandleCreateNewAccount, onHandleEditAccount, currentInputFormData } = useContext(AccountContext);
     // sử dụng react để quản lý value trong form
     const [inputEmail, setInputEmail] = useState("");
 
@@ -26,15 +26,25 @@ function InputForm(props) {
     const handleSubmit = (e) => {
         e.preventDefault();
         const formData = {
-            id: uuidv4(),
             email: emailRef.current.value,
             userName: usernameRef.current.value,
             fullName: fullnameRef.current.value,
             department: departmentRef.current.value,
             position: postionRef.current.value
         };
-
-        onHandleCreateNewAccount(formData);
+        if (!currentInputFormData?.id) {
+            const data = {
+                id: uuidv4(),
+                ...formData
+            };
+            onHandleCreateNewAccount(data);
+        } else {
+            const newData = {
+                id: currentInputFormData.id,
+                ...formData
+            };
+            onHandleEditAccount(newData);
+        }
     };
 
     return (
@@ -58,6 +68,7 @@ function InputForm(props) {
                         placeholder="Input Email"
                         type="email"
                         innerRef={emailRef}
+                        defaultValue={currentInputFormData?.email}
                     />
                 </FormGroup>
 
@@ -71,6 +82,7 @@ function InputForm(props) {
                         placeholder="Input Username"
                         type="text"
                         innerRef={usernameRef}
+                        defaultValue={currentInputFormData?.userName}
                     />
                 </FormGroup>
 
@@ -84,6 +96,7 @@ function InputForm(props) {
                         placeholder="Input Fullname"
                         type="text"
                         innerRef={fullnameRef}
+                        defaultValue={currentInputFormData?.fullName}
                     />
                 </FormGroup>
 
@@ -91,7 +104,7 @@ function InputForm(props) {
                 {/* Department */}
                 <FormGroup>
                     <Label for="Department">Select a Department: </Label>
-                    <Input id="Department" name="Department" type="select" innerRef={departmentRef}>
+                    <Input id="Department" name="Department" type="select" innerRef={departmentRef} defaultValue={currentInputFormData?.department}>
                         <option value={"Bán hàng"}>Bán hàng</option>
                         <option value={"Bảo vệ"}>Bảo vệ</option>
                         <option value={"Giám đốc"}>Giám đốc</option>
@@ -104,7 +117,7 @@ function InputForm(props) {
                 {/* Postion */}
                 <FormGroup>
                     <Label for="Postion">Select a Postion: </Label>
-                    <Input id="Postion" name="Postion" type="select" innerRef={postionRef}>
+                    <Input id="Postion" name="Postion" type="select" innerRef={postionRef} defaultValue={currentInputFormData?.position}>
                         <option value={"Dev"}>Dev</option>
                         <option value={"Test"}>Test</option>
                         <option value={"Scrum_Master"}>Scrum_Master</option>
@@ -112,7 +125,7 @@ function InputForm(props) {
                     </Input>
                 </FormGroup>
                 {/* Nút xử lý */}
-                <Button type="submit" color="primary">Create</Button>
+                <Button type="submit" color="primary"> {!currentInputFormData?.id ? 'Create' : 'Update'}</Button>
                 <Button type="reset" color="danger">Reset</Button>
             </Form>
         </Container>

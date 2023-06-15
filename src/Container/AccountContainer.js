@@ -10,17 +10,38 @@ export const AccountContext = createContext();
 function AccountContainer(props) {
     const [isOpenCreateModal, setOpenCreateModal] = useState(false);
     const [listAccount, setListAccount] = useState([]);
+    const [currentInputFormData, setCurrentInputFormData] = useState();
+
+    const updateListAccountData = () => {
+        setListAccount(listAccount);
+        localStorage.setItem("listAccount", JSON.stringify(listAccount));
+    };
 
     const onHandleCreateNewAccount = (newAccount) => {
-        console.log('from container =>', newAccount);
-
         listAccount.push(newAccount);
-        setListAccount(listAccount);
-
-        localStorage.setItem("listAccount", JSON.stringify(listAccount));
+        updateListAccountData();
 
         setOpenCreateModal(false);
     };
+
+    const onHandleEditAccount = (newAccountData) => {
+        const targetAccountIndex = listAccount.findIndex((account) => account.id === newAccountData.id);
+
+        listAccount[targetAccountIndex] = { ...listAccount[targetAccountIndex], ...newAccountData };
+        updateListAccountData();
+
+        setOpenCreateModal(false);
+        setCurrentInputFormData({});
+    };
+
+    const onHandleDeleteAccount = (accountId) => {
+        const targetAccountIndex = listAccount.findIndex((account) => account.id === accountId);
+        const cloneList = [...listAccount];
+        cloneList.splice(targetAccountIndex, 1);
+        setListAccount(cloneList);
+        localStorage.setItem("listAccount", JSON.stringify(cloneList));
+    };
+
 
     useEffect(() => {
         if (localStorage && localStorage.getItem("listAccount")) {
@@ -31,9 +52,14 @@ function AccountContainer(props) {
 
     return (
         <AccountContext.Provider value={{
+            listAccount,
             isOpenCreateModal,
             setOpenCreateModal,
+            currentInputFormData,
+            setCurrentInputFormData,
             onHandleCreateNewAccount,
+            onHandleEditAccount,
+            onHandleDeleteAccount,
         }}>
             <Container>
                 {/* Nút thêm mới */}
