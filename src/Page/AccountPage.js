@@ -5,6 +5,7 @@ import AccountContainer from "../Container/AccountContainer";
 function AcountPage(props) {
     return (
         <Container>
+            {props.name}
             <AccountContainer />
         </Container>
     );

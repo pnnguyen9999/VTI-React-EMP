@@ -3,6 +3,7 @@ import { Container } from "reactstrap";
 import CreateButton from "../Components/Account/CreateButton";
 import ModalCreateNewAccount from "../Components/Account/CreateNewAccount/ModalCreateNewAccount";
 import ResultForm from "../Components/Account/ResultForm";
+import withData from "../Components/HOC/withData";
 
 
 export const AccountContext = createContext();
@@ -62,6 +63,8 @@ function AccountContainer(props) {
             onHandleDeleteAccount,
         }}>
             <Container>
+                <EasyImageRenderProps render={(data) => <div>{data}</div>} />
+                <ParentComponent testRd={(mousePosition) => <div>{mousePosition.mouseX}:{mousePosition.mouseY}</div>} />
                 {/* Nút thêm mới */}
                 <CreateButton />
                 {/* Form thêm mới Account*/}
@@ -75,3 +78,37 @@ function AccountContainer(props) {
 
 
 export default AccountContainer;
+
+
+const ParentComponent = (props) => {
+    const [mousePosition, setMousePosition] = useState({
+        mouseX: 0,
+        mouseY: 0
+    });
+
+    const handleSetMousePoistion = (e) => {
+        setMousePosition({
+            mouseX: e.clientX,
+            mouseY: e.clientY
+        });
+    };
+    return <div onMouseMove={handleSetMousePoistion}>
+        <h1>ParentComponent</h1>
+        {props.testRd(mousePosition)}
+    </div>;
+};
+
+const EasyImageRenderProps = (props) => {
+    const data = "hello from parent component";
+    return <div>
+        <h1>Easy understand Render Props</h1>
+        {props.render(data)}
+    </div>;
+};
+
+
+const TestComponentUseData = (props) => {
+    return <div>{props?.accountData?.listAccount[1]?.email}</div>;
+};
+
+const TestComponentUseDataWithContext = withData(TestComponentUseData);
