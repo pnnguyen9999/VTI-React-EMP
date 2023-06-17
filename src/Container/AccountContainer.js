@@ -3,6 +3,7 @@ import { Container } from "reactstrap";
 import CreateButton from "../Components/Account/CreateButton";
 import ModalCreateNewAccount from "../Components/Account/CreateNewAccount/ModalCreateNewAccount";
 import ResultForm from "../Components/Account/ResultForm";
+import employeeApi from "../api/EmployeeApi";
 
 
 export const AccountContext = createContext();
@@ -14,40 +15,42 @@ function AccountContainer(props) {
 
     const updateListAccountData = () => {
         setListAccount(listAccount);
-        localStorage.setItem("listAccount", JSON.stringify(listAccount));
     };
 
     const onHandleCreateNewAccount = (newAccount) => {
-        listAccount.push(newAccount);
+        employeeApi.createEmployees(newAccount).then(() => {
+            loadData();
+        });
         updateListAccountData();
-
         setOpenCreateModal(false);
     };
 
     const onHandleEditAccount = (newAccountData) => {
-        const targetAccountIndex = listAccount.findIndex((account) => account.id === newAccountData.id);
-
-        listAccount[targetAccountIndex] = { ...listAccount[targetAccountIndex], ...newAccountData };
-        updateListAccountData();
+        employeeApi.updateEmployee(newAccountData.id, newAccountData).then(() => {
+            loadData();
+        });
 
         setOpenCreateModal(false);
         setCurrentInputFormData({});
     };
 
     const onHandleDeleteAccount = (accountId) => {
-        const targetAccountIndex = listAccount.findIndex((account) => account.id === accountId);
-        const cloneList = [...listAccount];
-        cloneList.splice(targetAccountIndex, 1);
-        setListAccount(cloneList);
-        localStorage.setItem("listAccount", JSON.stringify(cloneList));
+        employeeApi.deleteEmployee(accountId).then(() => {
+            loadData();
+        });
     };
 
+    const loadData = async () => {
+        const res = await employeeApi.getEmployees();
+        console.log(res.data);
+        setListAccount(res.data);
+    };
 
     useEffect(() => {
-        if (localStorage && localStorage.getItem("listAccount")) {
-            const listAccountLocalStorage = JSON.parse(localStorage.getItem("listAccount"));
-            setListAccount(listAccountLocalStorage);
-        }
+        loadData();
+        // employeeApi.getEmployees().then((res) => {
+        //     setListAccount(res.data)
+        // })
     }, []);
 
     return (
