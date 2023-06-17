@@ -62,16 +62,53 @@ function AccountContainer(props) {
             onHandleDeleteAccount,
         }}>
             <Container>
-                {/* Nút thêm mới */}
-                <CreateButton />
-                {/* Form thêm mới Account*/}
+                <Mouse coordinate={(mousePosition) =>
+                    <PrintCoord
+                        toaDoChuotX={mousePosition.mouseX}
+                        toaDoChuotY={mousePosition.mouseY} />}
+                />
+                {/* <EasyRenderProps data={(dulieu) => <h6>{dulieu}</h6>} /> */}
+                {/* <CreateButton />
                 <ModalCreateNewAccount />
-                {/* Form kết quả */}
-                <ResultForm data={listAccount} />
+                <ResultForm data={listAccount} /> */}
             </Container>
         </AccountContext.Provider>
     );
 }
 
+const EasyRenderProps = (props) => {
+    return <div>
+        <h1>Easy understand render props</h1>
+        {props.data('data inside easy render props')}
+    </div>;
+};
+
+const Mouse = (props) => {
+    const [mousePosition, setMousePosition] = useState({
+        mouseX: 0,
+        mouseY: 0
+    });
+
+    const handleSetMousePosition = (e) => {
+        setMousePosition({
+            mouseX: e.clientX,
+            mouseY: e.clientY
+        });
+    };
+
+    return <div onMouseMove={handleSetMousePosition}>
+        <h1>Mouse component</h1>
+        {props.coordinate(mousePosition)}
+    </div>;
+};
+
+const PrintCoord = (props) => {
+    return <h1 style={{ color: "red", fontWeight: "bold" }}>
+        {props.toaDoChuotX} : {props.toaDoChuotY}
+    </h1>;
+};
+
+// callback
+// react props
 
 export default AccountContainer;
