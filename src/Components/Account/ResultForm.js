@@ -2,13 +2,17 @@ import React, { useState } from "react";
 import { Table, Container, Button } from "reactstrap";
 import ResultFormItem from "./ResultFormItem";
 import { v4 as uuidv4 } from 'uuid';
+import { useSelector } from "react-redux";
 
 
 function ResultForm(props) {
+    const count = useSelector((state) => state.count);
+    const mess = useSelector((state) => state.message);
+
     return (
         <Container>
             <br />
-            <h3>Danh sách Account</h3>
+            <h3>Danh sách Account {count} {mess}</h3>
             <Table hover>
                 <thead>
                     <tr>
