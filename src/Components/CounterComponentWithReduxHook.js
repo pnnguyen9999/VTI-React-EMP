@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 const CounterComponentWithReduxHook = (props) => {
     const data = "helloooooo";
 
-    const { count, message } = useSelector((state) => state);
+    const { count, message } = useSelector((state) => state.counter);
 
     const dispatch = useDispatch();
 

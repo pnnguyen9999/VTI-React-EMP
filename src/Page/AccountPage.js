@@ -7,7 +7,7 @@ import CounterComponentWithReduxHook from "../Components/CounterComponentWithRed
 function AcountPage(props) {
     return (
         <Container>
-            <CounterComponent />
+            {/* <CounterComponent /> */}
             <CounterComponentWithReduxHook />
             <AccountContainer />
         </Container>
