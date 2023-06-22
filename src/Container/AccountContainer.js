@@ -3,62 +3,29 @@ import { Container } from "reactstrap";
 import CreateButton from "../Components/Account/CreateButton";
 import ModalCreateNewAccount from "../Components/Account/CreateNewAccount/ModalCreateNewAccount";
 import ResultForm from "../Components/Account/ResultForm";
+import employeeApi from "../api/EmployeeApi";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchEmployeeData } from "../redux/actions/employee";
 
 
 export const AccountContext = createContext();
 
 function AccountContainer(props) {
-    const [isOpenCreateModal, setOpenCreateModal] = useState(false);
-    const [listAccount, setListAccount] = useState([]);
-    const [currentInputFormData, setCurrentInputFormData] = useState();
+    const { data } = useSelector((state) => state.employee);
+    const dispatch = useDispatch();
 
-    const updateListAccountData = () => {
-        setListAccount(listAccount);
-        localStorage.setItem("listAccount", JSON.stringify(listAccount));
-    };
-
-    const onHandleCreateNewAccount = (newAccount) => {
-        listAccount.push(newAccount);
-        updateListAccountData();
-
-        setOpenCreateModal(false);
-    };
-
-    const onHandleEditAccount = (newAccountData) => {
-        const targetAccountIndex = listAccount.findIndex((account) => account.id === newAccountData.id);
-
-        listAccount[targetAccountIndex] = { ...listAccount[targetAccountIndex], ...newAccountData };
-        updateListAccountData();
-
-        setOpenCreateModal(false);
-        setCurrentInputFormData({});
-    };
 
     const onHandleDeleteAccount = (accountId) => {
-        const targetAccountIndex = listAccount.findIndex((account) => account.id === accountId);
-        const cloneList = [...listAccount];
-        cloneList.splice(targetAccountIndex, 1);
-        setListAccount(cloneList);
-        localStorage.setItem("listAccount", JSON.stringify(cloneList));
+        employeeApi.deleteEmployee(accountId).then(() => {
+        });
     };
 
-
     useEffect(() => {
-        if (localStorage && localStorage.getItem("listAccount")) {
-            const listAccountLocalStorage = JSON.parse(localStorage.getItem("listAccount"));
-            setListAccount(listAccountLocalStorage);
-        }
+        dispatch(fetchEmployeeData());
     }, []);
 
     return (
         <AccountContext.Provider value={{
-            listAccount,
-            isOpenCreateModal,
-            setOpenCreateModal,
-            currentInputFormData,
-            setCurrentInputFormData,
-            onHandleCreateNewAccount,
-            onHandleEditAccount,
             onHandleDeleteAccount,
         }}>
             <Container>
@@ -67,7 +34,7 @@ function AccountContainer(props) {
                 {/* Form thêm mới Account*/}
                 <ModalCreateNewAccount />
                 {/* Form kết quả */}
-                <ResultForm data={listAccount} />
+                <ResultForm data={data} />
             </Container>
         </AccountContext.Provider>
     );

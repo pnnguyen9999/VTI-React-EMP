@@ -1,0 +1,7 @@
+const COUNTER = {
+    INCREMENT: "INCREMENT",
+    DECREMENT: "DECREMENT",
+    UPDATE_MESS: "UPDATE_MESS"
+};
+
+export default COUNTER;
