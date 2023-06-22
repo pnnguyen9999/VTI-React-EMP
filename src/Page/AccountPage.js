@@ -8,7 +8,7 @@ function AcountPage(props) {
     return (
         <Container>
             {/* <CounterComponent /> */}
-            <CounterComponentWithReduxHook />
+            {/* <CounterComponentWithReduxHook /> */}
             <AccountContainer />
         </Container>
     );

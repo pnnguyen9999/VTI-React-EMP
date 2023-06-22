@@ -1,15 +1,20 @@
 import React, { useContext } from "react";
 import { Button } from "reactstrap";
 import { AccountContext } from "../../Container/AccountContainer";
+import { useDispatch, useSelector } from "react-redux";
+import EMPLOYEE, { setCurrentFormData } from "../../redux/actions/employee";
 
 
 function ResultFormItem(props) {
-    const { listAccount, setOpenCreateModal, setCurrentInputFormData, onHandleDeleteAccount } = useContext(AccountContext);
+    const { onHandleDeleteAccount } = useContext(AccountContext);
+
+    const { data } = useSelector((state) => state.employee);
+    const dispatch = useDispatch();
 
     const handleEditAccount = () => {
-        const currentData = listAccount.find((account) => account.id === props.id);
-        setCurrentInputFormData(currentData);
-        setOpenCreateModal(true);
+        const currentData = data.find((account) => account.id === props.id);
+        dispatch({ type: EMPLOYEE.SET_MODAL, payload: true });
+        dispatch(setCurrentFormData(currentData));
     };
     return (
         <tr>

@@ -6,12 +6,9 @@ import EMPLOYEE from "../../redux/actions/employee";
 
 
 function CreateButton(props) {
-    const { isOpenModal } = useSelector((state) => state.employee);
-    // const isOpenModal = useSelector((state) => state.employee.isOpenModal)
     const dispatch = useDispatch();
     return (
         <Container>
-            {+isOpenModal}
             <br />
             <Button color="primary" onClick={() => dispatch({ type: EMPLOYEE.SET_MODAL, payload: true })}>Create New Account</Button>
         </Container>
