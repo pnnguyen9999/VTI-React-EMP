@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Container, Button, Form, FormGroup, Label, Input } from "reactstrap";
-import { v4 as uuidv4 } from "uuid";
 import { AccountContext } from "../../../Container/AccountContainer";
 
 function InputForm(props) {
@@ -34,7 +33,6 @@ function InputForm(props) {
         };
         if (!currentInputFormData?.id) {
             const data = {
-                id: uuidv4(),
                 ...formData
             };
             onHandleCreateNewAccount(data);
