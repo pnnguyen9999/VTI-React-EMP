@@ -76,7 +76,7 @@ export const updateEmployee = (newData) => {
             });
         } catch (error) {
             dispatch({
-                type: EMPLOYEE.UPDATE_DATA_PENDING,
+                type: EMPLOYEE.UPDATE_DATA_FAILED,
                 payload: error.message
             });
         }
