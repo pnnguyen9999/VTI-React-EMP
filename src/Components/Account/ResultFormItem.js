@@ -1,13 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Button } from "reactstrap";
-import { AccountContext } from "../../Container/AccountContainer";
 import { useDispatch, useSelector } from "react-redux";
-import EMPLOYEE, { setCurrentFormData } from "../../redux/actions/employee";
+import EMPLOYEE, { deleteEmployee, setCurrentFormData } from "../../redux/actions/employee";
 
 
 function ResultFormItem(props) {
-    const { onHandleDeleteAccount } = useContext(AccountContext);
-
     const { data } = useSelector((state) => state.employee);
     const dispatch = useDispatch();
 
@@ -29,7 +26,7 @@ function ResultFormItem(props) {
                 <Button color="warning" onClick={handleEditAccount}>Edit</Button>
             </td>
             <td>
-                <Button color="warning" onClick={() => onHandleDeleteAccount(props.id)}>Delete</Button>
+                <Button color="warning" onClick={() => dispatch(deleteEmployee(props.id))}>Delete</Button>
             </td>
         </tr>
     );

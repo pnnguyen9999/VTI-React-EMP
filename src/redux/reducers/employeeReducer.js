@@ -24,6 +24,7 @@ const employeeReducer = (state = initialState, action) => {
         case EMPLOYEE.FETCH_DATA_PENDING:
         case EMPLOYEE.CREATE_DATA_PENDING:
         case EMPLOYEE.UPDATE_DATA_PENDING:
+        case EMPLOYEE.DELETE_DATA_PENDING:
             return {
                 ...state,
                 isLoading: true
@@ -52,9 +53,17 @@ const employeeReducer = (state = initialState, action) => {
                 isOpenModal: false,
                 currentFormData: {}
             };
+        case EMPLOYEE.DELETE_DATA_SUCCESS:
+            return {
+                ...state,
+                data: state.data.filter((emp) => emp.id !== action.payload.id),
+                isLoading: false,
+                error: null
+            }
         case EMPLOYEE.FETCH_DATA_FAILED:
         case EMPLOYEE.CREATE_DATA_FAILED:
         case EMPLOYEE.UPDATE_DATA_FAILED:
+        case EMPLOYEE.DELETE_DATA_FAILED:
             return {
                 ...state,
                 isLoading: false,
