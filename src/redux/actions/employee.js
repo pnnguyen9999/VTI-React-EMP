@@ -11,7 +11,10 @@ const EMPLOYEE = {
     CREATE_DATA_FAILED: "CREATE_DATA_FAILED",
     UPDATE_DATA_PENDING: "UPDATE_DATA_PENDING",
     UPDATE_DATA_SUCCESS: "UPDATE_DATA_SUCCESS",
-    UPDATE_DATA_FAILED: "UPDATE_DATA_FAILED"
+    UPDATE_DATA_FAILED: "UPDATE_DATA_FAILED",
+    DELETE_DATA_PENDING: "DELETE_DATA_PENDING",
+    DELETE_DATA_SUCCESS: "DELETE_DATA_SUCCESS",
+    DELETE_DATA_FAILED: "DELETE_DATA_FAILED"
 };
 
 export default EMPLOYEE;
@@ -76,7 +79,27 @@ export const updateEmployee = (newData) => {
             });
         } catch (error) {
             dispatch({
-                type: EMPLOYEE.UPDATE_DATA_PENDING,
+                type: EMPLOYEE.UPDATE_DATA_FAILED,
+                payload: error.message
+            });
+        }
+    };
+};
+
+export const deleteEmployee = (id) => {
+    return async (dispatch) => {
+        dispatch({ type: EMPLOYEE.DELETE_DATA_PENDING });
+        try {
+            const response = await employeeApi.deleteEmployee(id);
+            const data = response.data;
+            console.log(data);
+            dispatch({
+                type: EMPLOYEE.DELETE_DATA_SUCCESS,
+                payload: data
+            });
+        } catch (error) {
+            dispatch({
+                type: EMPLOYEE.DELETE_DATA_FAILED,
                 payload: error.message
             });
         }

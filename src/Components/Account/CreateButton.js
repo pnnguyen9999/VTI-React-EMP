@@ -1,7 +1,6 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Container, Button } from "reactstrap";
-import { AccountContext } from "../../Container/AccountContainer";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import EMPLOYEE from "../../redux/actions/employee";
 
 
