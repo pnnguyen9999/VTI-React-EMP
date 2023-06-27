@@ -5,15 +5,16 @@ import ModalCreateNewAccount from "../Components/Account/CreateNewAccount/ModalC
 import ResultForm from "../Components/Account/ResultForm";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchEmployeeData } from "../redux/actions/employee";
+import { fetchEmployeeDataToolkit } from "../redux/reducers/employeeReducerTookit";
 
 
 function AccountContainer(props) {
-    const { data } = useSelector((state) => state.employee);
+    const { data } = useSelector((state) => state.employeeToolkit);
     const dispatch = useDispatch();
 
 
     useEffect(() => {
-        dispatch(fetchEmployeeData());
+        dispatch(fetchEmployeeDataToolkit());
     }, []);
 
     return (
