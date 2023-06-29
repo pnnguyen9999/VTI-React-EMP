@@ -8,6 +8,7 @@ const Users = () => {
         <h2>Users</h2>
         <Routes>
             <Route path="/" element={<UserList />} />
+            <Route path="/abc" element={<div>123</div>} />
             <Route path=":id" element={<UserDetail />} />
         </Routes>
     </div>;
@@ -32,5 +33,5 @@ const UserDetail = () => {
 export const routes = <Routes>
     <Route path="/" element={<Home />} />
     <Route path="/account-management" element={<AccountPage />} />
-    <Route path="/users" element={<Users />} />
+    <Route path="/users/*" element={<Users />} />
 </Routes>;

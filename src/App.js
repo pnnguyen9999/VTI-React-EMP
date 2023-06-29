@@ -14,7 +14,7 @@ function App() {
           <Link to="/account-management">Account Page</Link>
         </li>
         <li>
-          <Link to="/users">Users</Link>
+          <Link to="/users/">Users</Link>
         </li>
       </ul>
       {routes}
