@@ -4,7 +4,7 @@ import AccountContainer from "../Container/AccountContainer";
 import CounterComponent from "../Components/CounterComponent";
 import CounterComponentWithReduxHook from "../Components/CounterComponentWithReduxHook";
 
-function AcountPage(props) {
+function AccountPage(props) {
     return (
         <Container>
             {/* <CounterComponent /> */}
@@ -15,5 +15,5 @@ function AcountPage(props) {
 }
 
 
-export default AcountPage;
+export default AccountPage;
 
