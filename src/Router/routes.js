@@ -2,8 +2,8 @@ import { Link, Route, Routes, useParams, useSearchParams, unstable_usePrompt } f
 import AccountPage from "../Page/AccountPage";
 import Home from "../Page/Home";
 import { Button } from "reactstrap";
-import { useState } from "react";
-
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const Users = () => {
     return <div>
@@ -42,31 +42,48 @@ const UserDetail = () => {
 };
 
 const FormTest = () => {
-    const [user, setUser] = useState("");
-    const [email, setEmail] = useState("");
+    const formik = useFormik({
+        initialValues: {
+            user: '',
+            email: '',
+        },
+    // validate: (values) => {
+    //     const errors = {};
 
-    const [isDraft, setIsDraft] = useState(false);
+        //     if (values.user === '') {
+        //         errors.user = 'Vui lòng nhập user name';
+        //     }
 
-    unstable_usePrompt("Hello from usePrompt -- Are you sure you want to leave?", isDraft);
+        //     if (!values.email) {
+        //         errors.email = 'Vui lòng nhập email';
+        //     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+        //         errors.email = 'Invalid email address';
+        //     }
 
-    const handleSave = () => {
-        setIsDraft(false);
-        console.log({ user, email });
-    };
-    return <div>
-        <h2>Form</h2>
-        <form>
-            <label>
-                Tên:
-                <input type="text" name="name" value={user} onChange={(e) => { setUser(e.target.value); setIsDraft(true); }} />
-            </label>
-            <label>
-                Email:
-                <input type="text" name="email" value={email} onChange={(e) => { setEmail(e.target.value); setIsDraft(true); }} />
-            </label>
-        </form>
-        <Button onClick={handleSave}>Lưu</Button>
-    </div>;
+        //     return errors;
+        // },
+        validationSchema: Yup.object({
+            user: Yup.string().required('Vui lòng nhập user name'),
+            email: Yup.string().email('Vui lòng nhập đúng định dạng email').required('Vui lòng nhập email')
+        }),
+        onSubmit: (value) => {
+            console.log(value);
+        }
+    });
+    return <form onSubmit={formik.handleSubmit}>
+        <div>
+            <label htmlFor="user">User name</label>
+            <input id="user" name="user" type="text" onChange={formik.handleChange} value={formik.values.user} />
+            {formik.errors.user ? <div style={{ color: "red" }}>{formik.errors.user}</div> : null}
+
+        </div>
+        <div>
+            <label htmlFor="email">Email Address</label>
+            <input id="email" name="email" type="text" onChange={formik.handleChange} value={formik.values.email} />
+            {formik.errors.email ? <div style={{ color: "red" }}>{formik.errors.email}</div> : null}
+        </div>
+        <Button type="submit">Submit</Button>
+    </form>;
 }
 
 export const routes = <Routes>
