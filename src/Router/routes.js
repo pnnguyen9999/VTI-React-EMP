@@ -4,6 +4,7 @@ import Home from "../Page/Home";
 import { Button } from "reactstrap";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import HookDemo from "../Page/HookDemo";
 
 const Users = () => {
     return <div>
@@ -91,4 +92,5 @@ export const routes = <Routes>
     <Route path="/account-management" element={<AccountPage />} />
     <Route path="/users/*" element={<Users />} />
     <Route path="/form" element={<FormTest />} />
+    <Route path="/hook-demo" element={<HookDemo />} />
 </Routes>;

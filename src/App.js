@@ -21,6 +21,9 @@ function App() {
         <li>
           <Link to="/form">Form</Link>
         </li>
+        <li>
+          <Link to="/hook-demo">Hook Demo</Link>
+        </li>
       </ul>
       <AppLayout>
         {routes}
@@ -42,7 +45,7 @@ const AppLayout = ({ children }) => {
   };
   return <>
     <div>header
-      <Button onClick={handleRedirect}>Navigate to user 1</Button>
+      {/* <Button onClick={handleRedirect}>Navigate to user 1</Button> */}
     </div>
     {children}
     <div>footer</div>
