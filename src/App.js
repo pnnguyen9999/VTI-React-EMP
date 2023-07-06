@@ -44,11 +44,11 @@ const AppLayout = ({ children }) => {
     }
   };
   return <>
-    <div>header
+    <div>Navbar
       {/* <Button onClick={handleRedirect}>Navigate to user 1</Button> */}
     </div>
     {children}
-    <div>footer</div>
+    <div>Bottom Footer</div>
   </>;
 }
 
